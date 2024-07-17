@@ -99,7 +99,7 @@ class cip:
                 with open(self.file, 'wb') as file:
                     file.write(endspack.encode('utf-8'))
             except:
-                continue
+                pass
                 
     def jiemi(self):
         with open(self.file, 'rb') as file:
