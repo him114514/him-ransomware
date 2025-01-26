@@ -52,7 +52,7 @@ def getresource():
 
 if f"download" in os.listdir(f"C:\\Users\\{use}"):
 
-    folder = getresource() + disks() +["C:\\Users\\{use}\\download"]
+    folder = getresource() + disks() +[f"C:\\Users\\{use}\\download"]
 else:
 
     folder = getresource() + disks()
