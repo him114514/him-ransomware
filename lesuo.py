@@ -50,7 +50,7 @@ def getresource():
         ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, x, False)
         yield b.value
 
-if f"download" in os.listdir("C:\\Users\\{use}"):
+if f"download" in os.listdir(f"C:\\Users\\{use}"):
 
     folder = getresource() + disks() +["C:\\Users\\{use}\\download"]
 else:
