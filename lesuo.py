@@ -38,7 +38,7 @@ if sys.argv[0] != filepath:
  
 def getresource():
     b = ctypes.create_unicode_buffer(512)
-    c=[0,13,14,39,6]
+    c=[0,13,14,39,5,6]
     for x in c:
         ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, x, False)
         yield b.value
