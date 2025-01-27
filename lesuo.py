@@ -4,6 +4,8 @@ import os
 import uuid
 import ctypes
 import hashlib
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
 from pyDes import des, ECB, PAD_PKCS5
 
 Des_key = des(b'20080617')
@@ -57,26 +59,34 @@ else:
 class cip:
     def __init__(self, file):
         self.file = file
-        
+
+
     def encryption(self):
         self.cryption(0)
-                
+
     def decryption(self):
         self.cryption(1)
 
-    def cryption(self,w):
+    def cryption(self, mode):
         try:
             with open(self.file, 'rb') as files:
-                packed=files.read()
-                
-                with open(self.file, 'wb') as file:
-                    DesObject = des(b'20080617',ECB, pad=None, padmode=PAD_PKCS5)
-                    if w == 0:
-                        file.write(DesObject.encrypt(packed))
-                    else:
-                        file.write(DesObject.decrypt(packed))
+                packed = files.read()
+            
+        
+            cipher = AES.new(b'2008061720250127' , AES.MODE_ECB)
+            
+            if mode == 0:
+                packed = pad(packed, AES.block_size)
+                processdata = cipher.encrypt(packed)
+            else:
+                processdata = cipher.decrypt(packed)
+
+                processdata = unpad(processdata, AES.block_size)
+            with open(self.file, 'wb') as file:
+                file.write(processdata)
+
         except:
-            pass     
+            pass
        
             
 
