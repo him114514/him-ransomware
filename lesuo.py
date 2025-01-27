@@ -99,7 +99,7 @@ class listfile:
                       '.sql','.mdb','.bak','.old','.txt','.cpp','.js','.h','.cs','.bin','.webp','.mov','.wmv','.rtf',
                       '.gz','.odt','.e','.log','.ogg','.php','.go','.rs','.xml','.json','.yml','.css','.dll','.1cd','.ghost',
                       '.vmx','.vmem','.vmdk','.obj','.pyd','.pyc','.bat','.csv','.swf','.flv','.ai','.psd','.wma','.aac',
-                      '.tif','.data','.jfif','.rdp']  
+                      '.tif','.data','.jfif','.rdp','apk','.ico']  
         result = []
         for root, _ ,files in os.walk(os.getcwd()):
             for file in files:
